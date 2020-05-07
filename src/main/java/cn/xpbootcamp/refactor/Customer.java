@@ -26,26 +26,9 @@ public class Customer {
         for (Rental each : rentals) {
             //show figures for this rental
             //determine amounts for each line
-            double thisAmount = 0d;
-            switch (each.getMovie().getPriceCode()) {
-                case Movie.HISTORY:
-                    thisAmount += 2;
-                    if (each.getDaysRented() > 2)
-                        thisAmount += (each.getDaysRented() - 2) * 1.5;
-                    break;
-                case Movie.NEW_RELEASE:
-                    thisAmount += each.getDaysRented() * 3;
-                    break;
-                case Movie.CAMPUS:
-                    thisAmount += 1.5;
-                    if (each.getDaysRented() > 3)
-                        thisAmount += (each.getDaysRented() - 3) * 1.5;
-                    break;
-            }
+            double thisAmount = getThisAmount(each);
             //add frequent renter points
-            frequentRenterPoints++;
-            if ((each.getMovie().getPriceCode() == Movie.NEW_RELEASE) && each.getDaysRented() > 1)
-                frequentRenterPoints++;
+            frequentRenterPoints = getFrequentRenterPoints(frequentRenterPoints, each);
 
             //show figures for this rental
             result.append("\t")
@@ -58,6 +41,33 @@ public class Customer {
         result.append("Amount owed is ").append(totalAmount).append("\n");
         result.append("You earned ").append(frequentRenterPoints).append(" frequent renter points");
         return result.toString();
+    }
+
+    private int getFrequentRenterPoints(int frequentRenterPoints, Rental each) {
+        frequentRenterPoints++;
+        if ((each.getMovie().getPriceCode() == Movie.NEW_RELEASE) && each.getDaysRented() > 1)
+            frequentRenterPoints++;
+        return frequentRenterPoints;
+    }
+
+    private double getThisAmount(Rental each) {
+        double thisAmount = 0d;
+        switch (each.getMovie().getPriceCode()) {
+            case Movie.HISTORY:
+                thisAmount += 2;
+                if (each.getDaysRented() > 2)
+                    thisAmount += (each.getDaysRented() - 2) * 1.5;
+                break;
+            case Movie.NEW_RELEASE:
+                thisAmount += each.getDaysRented() * 3;
+                break;
+            case Movie.CAMPUS:
+                thisAmount += 1.5;
+                if (each.getDaysRented() > 3)
+                    thisAmount += (each.getDaysRented() - 3) * 1.5;
+                break;
+        }
+        return thisAmount;
     }
 
 }
