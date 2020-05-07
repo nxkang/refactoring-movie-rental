@@ -21,16 +21,13 @@ public class Customer {
 
     String statement() {
         double totalAmount = 0d;
+        totalAmount = getTotalAmount(totalAmount);
+
         StringBuilder result = new StringBuilder("Rental Record for " + getName() + "：\n");
         for (Rental each : rentals) {
-
-            //show figures for this rental
-            //determine amounts for each line
             double thisAmount = getThisAmount(each);
-
             //show figures for this rental
             showRentalFigure(result, each, thisAmount);
-            totalAmount += thisAmount;
         }
 
         int frequentRenterPoints = getFrequentRenterPoints();
@@ -38,6 +35,15 @@ public class Customer {
         result.append("Amount owed is ").append(totalAmount).append("\n");
         result.append("You earned ").append(frequentRenterPoints).append(" frequent renter points");
         return result.toString();
+    }
+
+    private double getTotalAmount(double totalAmount) {
+        for (Rental each : rentals) {
+            //determine amounts for each line
+            double thisAmount = getThisAmount(each);
+            totalAmount += thisAmount;
+        }
+        return totalAmount;
     }
 
     private int getFrequentRenterPoints() {
