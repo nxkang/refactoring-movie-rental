@@ -21,11 +21,8 @@ public class Customer {
 
     String statement() {
         double totalAmount = 0d;
-        int frequentRenterPoints = 0;
         StringBuilder result = new StringBuilder("Rental Record for " + getName() + "：\n");
         for (Rental each : rentals) {
-            //add frequent renter points
-            frequentRenterPoints = getFrequentRenterPoints(frequentRenterPoints, each);
 
             //show figures for this rental
             //determine amounts for each line
@@ -35,10 +32,21 @@ public class Customer {
             showRentalFigure(result, each, thisAmount);
             totalAmount += thisAmount;
         }
+
+        int frequentRenterPoints = getFrequentRenterPoints();
         //add footer lines
         result.append("Amount owed is ").append(totalAmount).append("\n");
         result.append("You earned ").append(frequentRenterPoints).append(" frequent renter points");
         return result.toString();
+    }
+
+    private int getFrequentRenterPoints() {
+        int frequentRenterPoints = 0;
+        for (Rental each : rentals) {
+            //add frequent renter points
+            frequentRenterPoints = getFrequentRenterPoints(frequentRenterPoints, each);
+        }
+        return frequentRenterPoints;
     }
 
     private void showRentalFigure(StringBuilder result, Rental each, double thisAmount) {
