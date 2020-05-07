@@ -24,23 +24,28 @@ public class Customer {
         int frequentRenterPoints = 0;
         StringBuilder result = new StringBuilder("Rental Record for " + getName() + "：\n");
         for (Rental each : rentals) {
-            //show figures for this rental
-            //determine amounts for each line
-            double thisAmount = getThisAmount(each);
             //add frequent renter points
             frequentRenterPoints = getFrequentRenterPoints(frequentRenterPoints, each);
 
             //show figures for this rental
-            result.append("\t")
-                    .append(each.getMovie().getTitle())
-                    .append("\t")
-                    .append(thisAmount).append("\n");
+            //determine amounts for each line
+            double thisAmount = getThisAmount(each);
+
+            //show figures for this rental
+            showRentalFigure(result, each, thisAmount);
             totalAmount += thisAmount;
         }
         //add footer lines
         result.append("Amount owed is ").append(totalAmount).append("\n");
         result.append("You earned ").append(frequentRenterPoints).append(" frequent renter points");
         return result.toString();
+    }
+
+    private void showRentalFigure(StringBuilder result, Rental each, double thisAmount) {
+        result.append("\t")
+                .append(each.getMovie().getTitle())
+                .append("\t")
+                .append(thisAmount).append("\n");
     }
 
     private int getFrequentRenterPoints(int frequentRenterPoints, Rental each) {
