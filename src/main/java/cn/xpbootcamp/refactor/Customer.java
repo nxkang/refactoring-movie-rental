@@ -22,7 +22,10 @@ public class Customer {
     String statement() {
         double totalAmount = getTotalAmount();
         int frequentRenterPoints = getFrequentRenterPoints();
+        return getOutput(totalAmount, frequentRenterPoints);
+    }
 
+    private String getOutput(double totalAmount, int frequentRenterPoints) {
         StringBuilder result = new StringBuilder("Rental Record for " + getName() + "：\n");
         appendRentalFigure(result);
 
