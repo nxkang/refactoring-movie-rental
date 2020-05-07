@@ -43,8 +43,11 @@ public class Customer {
         }
     }
 
-    private double getTotalAmount() {
-        return rentals.stream().mapToDouble(this::getThisAmount).sum();
+    private void showRentalFigure(StringBuilder result, Rental each, double thisAmount) {
+        result.append("\t")
+                .append(each.getMovie().getTitle())
+                .append("\t")
+                .append(thisAmount).append("\n");
     }
 
     private int getFrequentRenterPoints() {
@@ -56,18 +59,15 @@ public class Customer {
         return frequentRenterPoints;
     }
 
-    private void showRentalFigure(StringBuilder result, Rental each, double thisAmount) {
-        result.append("\t")
-                .append(each.getMovie().getTitle())
-                .append("\t")
-                .append(thisAmount).append("\n");
-    }
-
     private int getFrequentRenterPoints(int frequentRenterPoints, Rental each) {
         frequentRenterPoints++;
         if ((each.getMovie().getPriceCode() == Movie.NEW_RELEASE) && each.getDaysRented() > 1)
             frequentRenterPoints++;
         return frequentRenterPoints;
+    }
+
+    private double getTotalAmount() {
+        return rentals.stream().mapToDouble(this::getThisAmount).sum();
     }
 
     private double getThisAmount(Rental each) {
