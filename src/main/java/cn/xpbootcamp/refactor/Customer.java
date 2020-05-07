@@ -24,17 +24,21 @@ public class Customer {
         totalAmount = getTotalAmount(totalAmount);
 
         StringBuilder result = new StringBuilder("Rental Record for " + getName() + "：\n");
-        for (Rental each : rentals) {
-            double thisAmount = getThisAmount(each);
-            //show figures for this rental
-            showRentalFigure(result, each, thisAmount);
-        }
+        appendRentalFigure(result);
 
         int frequentRenterPoints = getFrequentRenterPoints();
         //add footer lines
         result.append("Amount owed is ").append(totalAmount).append("\n");
         result.append("You earned ").append(frequentRenterPoints).append(" frequent renter points");
         return result.toString();
+    }
+
+    private void appendRentalFigure(StringBuilder result) {
+        for (Rental each : rentals) {
+            double thisAmount = getThisAmount(each);
+            //show figures for this rental
+            showRentalFigure(result, each, thisAmount);
+        }
     }
 
     private double getTotalAmount(double totalAmount) {
