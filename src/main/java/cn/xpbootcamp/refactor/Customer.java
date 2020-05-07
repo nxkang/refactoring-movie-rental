@@ -44,13 +44,7 @@ public class Customer {
     }
 
     private double getTotalAmount() {
-        double totalAmount = 0d;
-        for (Rental each : rentals) {
-            //determine amounts for each line
-            double thisAmount = getThisAmount(each);
-            totalAmount += thisAmount;
-        }
-        return totalAmount;
+        return rentals.stream().mapToDouble(this::getThisAmount).sum();
     }
 
     private int getFrequentRenterPoints() {
